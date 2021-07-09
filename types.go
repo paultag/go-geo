@@ -77,7 +77,7 @@ func (r Radians) Degrees() Degrees {
 // or significant errors can be introduced.
 type CoordinateSystem interface {
 
-	// LLAToXYZ will take a LLA inside this coordiante system and return that
+	// LLAToXYZ will take a LLA inside this coordinate system and return that
 	// in absolute XYZ space.
 	LLAToXYZ(LLA) XYZ
 
@@ -115,7 +115,7 @@ type LLA struct {
 }
 
 // XYZ is the earth-centric XYZ point system LLA locations can be turned into
-// points on the Earth's ellipsoid, but plotted using cartesian coordiantes
+// points on the Earth's ellipsoid, but plotted using cartesian coordinates
 // relative to Earth, rather than angular LLA measurements.
 type XYZ struct {
 	X Meters
