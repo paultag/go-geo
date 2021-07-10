@@ -101,6 +101,8 @@ type CoordinateSystem interface {
 //
 // Azimuth/Elevation (or Az/El) is a common way of locating objects measured
 // at a specific location (for instance, from a RADAR)
+//
+// This is a *relative* and *angular* measure.
 type AER struct {
 	Azimuth   Degrees
 	Elevation Degrees
@@ -108,6 +110,8 @@ type AER struct {
 }
 
 // LLA or Latitude, Longitude, Altitude, is a location somewhere around Earth.
+//
+// This is a *absolute* and *angular* measure.
 type LLA struct {
 	Latitude  Degrees
 	Longitude Degrees
@@ -117,6 +121,8 @@ type LLA struct {
 // XYZ is the earth-centric XYZ point system LLA locations can be turned into
 // points on the Earth's ellipsoid, but plotted using cartesian coordinates
 // relative to Earth, rather than angular LLA measurements.
+//
+// This is a *absolute* and *cartesian* measure.
 type XYZ struct {
 	X Meters
 	Y Meters
@@ -127,6 +133,8 @@ type XYZ struct {
 // tangent plane, which is to say, increasing "North" will get further and
 // further away from the Earth's surface (well, unless there's a mountain
 // range in front of you).
+//
+// This is a *relative* and *cartesian* measure.
 type ENU struct {
 	East  Meters
 	North Meters
