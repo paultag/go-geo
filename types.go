@@ -143,27 +143,25 @@ type ENU struct {
 
 // ENU will translate the AER angular vector into 3D space as an ENU.
 func (aed AER) ENU() ENU {
-	var (
-		sinTheta = math.Sin(aed.Elevation.Radians().F64())
-		cosTheta = math.Cos(aed.Elevation.Radians().F64())
-		sinPhi   = math.Sin(aed.Azimuth.Radians().F64())
-		cosPhi   = math.Cos(aed.Azimuth.Radians().F64())
-	)
+	var r = aed.Range * Meters(math.Cos(aed.Elevation.Radians().F64()))
 
 	return ENU{
-		East:  aed.Range * Meters(sinPhi*cosTheta),
-		North: aed.Range * Meters(cosPhi*sinTheta),
-		Up:    aed.Range * Meters(sinTheta),
+		East:  r * Meters(math.Sin(aed.Azimuth.Radians().F64())),
+		North: r * Meters(math.Cos(aed.Azimuth.Radians().F64())),
+		Up:    aed.Range * Meters(math.Sin(aed.Elevation.Radians().F64())),
 	}
 }
 
 // AER will convert the 3D ENU point, and return it as an angular AER vector.
 func (enu ENU) AER() AER {
-	var r = Meters(math.Sqrt((enu.East*enu.East + enu.North*enu.North).F64()))
+	var (
+		r   = Meters(math.Sqrt((enu.East*enu.East + enu.North*enu.North).F64()))
+		tau = math.Pi * 2
+	)
 
 	return AER{
-		Azimuth:   Degrees(math.Atan2(enu.East.F64(), enu.North.F64())),
-		Elevation: Degrees(math.Atan2(enu.Up.F64(), r.F64())),
+		Azimuth:   Radians(math.Mod(math.Atan2(enu.East.F64(), enu.North.F64()), tau)).Degrees(),
+		Elevation: Radians(math.Atan2(enu.Up.F64(), r.F64())).Degrees(),
 		Range:     Meters(math.Sqrt((r*r + enu.Up*enu.Up).F64())),
 	}
 }
