@@ -151,9 +151,9 @@ func (aed AER) ENU() ENU {
 	)
 
 	return ENU{
-		East:  aed.Range * Meters(sinTheta*cosPhi),
-		North: aed.Range * Meters(sinTheta*sinPhi),
-		Up:    aed.Range * Meters(cosTheta),
+		East:  aed.Range * Meters(sinPhi*cosTheta),
+		North: aed.Range * Meters(cosPhi*sinTheta),
+		Up:    aed.Range * Meters(sinTheta),
 	}
 }
 
