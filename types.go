@@ -159,16 +159,12 @@ func (aed AER) ENU() ENU {
 
 // AER will convert the 3D ENU point, and return it as an angular AER vector.
 func (enu ENU) AER() AER {
-	var (
-		d  = Meters(math.Sqrt((enu.East*enu.East + enu.North*enu.North + enu.Up*enu.Up).F64()))
-		el = Radians(math.Acos((enu.Up / d).F64()))
-		az = Radians(math.Atan2(enu.North.F64(), enu.East.F64()))
-	)
+	var r = Meters(math.Sqrt((enu.East*enu.East + enu.North*enu.North).F64()))
 
 	return AER{
-		Azimuth:   az.Degrees(),
-		Elevation: el.Degrees(),
-		Range:     d,
+		Azimuth:   Degrees(math.Atan2(enu.East.F64(), enu.North.F64())),
+		Elevation: Degrees(math.Atan2(enu.Up.F64(), r.F64())),
+		Range:     Meters(math.Sqrt((r*r + enu.Up*enu.Up).F64())),
 	}
 }
 
